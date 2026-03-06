@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: rick-morty-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node dist/main
+    envVars:
+      - key: PORT
+        value: 3001
