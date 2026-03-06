@@ -8,3 +8,5 @@ services:
     envVars:
       - key: PORT
         value: 3001
+      - key: FRONTEND_URL
+        sync: false # Configurar en el Dashboard (ej. https://rick-morty-frontend.onrender.com)
