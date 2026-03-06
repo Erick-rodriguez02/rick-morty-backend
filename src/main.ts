@@ -4,9 +4,20 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
+  // Health check for Render
+  const expressInstance = app.getHttpAdapter().getInstance();
+  expressInstance.get('/health', (req, res) => res.status(200).send('OK'));
+
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  // Permitir la URL con y sin barra diagonal al final para evitar errores comunes de CORS
+  const allowedOrigins = [
+    frontendUrl.replace(/\/$/, ''), 
+    `${frontendUrl.replace(/\/$/, '')}/`,
+    'http://localhost:3000'
+  ];
+
   app.enableCors({
-    origin: [frontendUrl, 'http://localhost:3000'],
+    origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
